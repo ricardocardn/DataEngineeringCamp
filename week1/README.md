@@ -85,11 +85,11 @@ WHERE t."tpep_pickup_datetime" >= '2019-10-01'
 Where `taxi_2019` is the table that only contains data from 2019. The following result was obtained:
 
 <p align="center">
-<img width="70%" alt="image" src="https://github.com/user-attachments/assets/8bbc946f-80f9-4867-86f3-e191f7cc8c8b" />
+<img width="70%" alt="image" src="https://github.com/user-attachments/assets/81823a3a-22da-47a1-ae2f-64ef4353a956" />
 </p>
 <p align="center"><b>Figure 3:</b> SQL Statement Result</p>
 
-Different to all of the possible answers given.
+ANSWER: 104,802; 198,924; 109,603; 27,678; 35,189
 
 
 ## **Question 4:** Longest trip for each day
@@ -99,7 +99,7 @@ To obtain the asked information, we should run the next sql statement.
 ```sql
 SELECT 
 	DATE(tpep_pickup_datetime) as date,
-	SUM(trip_distance) as distance
+	MAX(trip_distance) as distance
 from taxi_2019
 GROUP by date
 ORDER by distance DESC
@@ -109,12 +109,63 @@ LIMIT 1;
 This led us to the result in Figure 4.
 
 <p align="center">
-<img width="70%" alt="image" src="https://github.com/user-attachments/assets/1e638d34-5724-4390-86c4-f8deee314289" />
+<img width="70%" alt="image" src="https://github.com/user-attachments/assets/66558754-7eb8-420b-af83-cd219dfe9cf4" />
 </p>
 <p align="center"><b>Figure 4:</b> SQL Statement Result</p>
 
-ANSWER: 2019-10-18
+ANSWER: 2019-10-31
 
+## **Question 5:** Three biggest pickup zones
+
+The SQL statement is:
+
+```sql
+SELECT 
+    z."Zone", 
+    DATE(t.lpep_pickup_datetime) AS pickup_date,
+    SUM(t.total_amount) AS total_amount_sum
+FROM 
+    taxi_2019 AS t
+JOIN 
+    zones AS z
+ON 
+    t."PULocationID" = z."LocationID"
+WHERE 
+    DATE(t.lpep_pickup_datetime) = '2019-10-18'
+GROUP BY 
+    z."Zone", DATE(t.lpep_pickup_datetime)
+HAVING 
+    SUM(t.total_amount) > 13000
+ORDER BY 
+    total_amount_sum DESC;
+```
+
+ANSWER: 
+- East Harlem North
+- East Harlem South
+- Morningside Heights
+
+## **Question 6:** Largest tip
+
+The SQL statement is:
+
+```sql
+SELECT z2."Zone" as doZone, MAX(t."tip_amount") as Largest_tip
+FROM taxi_2019 as t, zones as z1, zones as z2
+WHERE t."PULocationID" = z1."LocationID" AND
+	z1."Zone" = 'East Harlem North' AND
+	t."DOLocationID" = z2."LocationID"
+GROUP BY z2."Zone"
+ORDER BY Largest_tip DESC
+LIMIT 1;
+```
+
+<p align="center">
+<img width="70%" alt="image" src="https://github.com/user-attachments/assets/7291b290-7997-4c89-8dcd-5a2df676ddd8" />
+</p>
+<p align="center"><b>Figure 5:</b> SQL Statement Result</p>
+
+ANSWER: JFK Airport with a tip of 87 dollars
 
 ## **Question 7:** Terraform Workflow
 
