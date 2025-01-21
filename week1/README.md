@@ -49,7 +49,7 @@ If you want to access the postgres container by port 5432 from the host machine,
 In Figures 1 and 2 you may see how we will be able to create the connection between pgadmin and postgres using this hostname and port.
 
 <p align="center">
-<img width="70%" alt="Screenshot 2025-01-21 at 20 38 11" src="https://github.com/user-attachments/assets/bcdb7d0c-2572-44d1-8041-3e79a4620785" />
+<img width="70%" alt="image" src="https://github.com/user-attachments/assets/6451614e-0a2b-4a20-9eba-b825eda3302a" />
 </p>
 <p align="center"><b>Figure 1:</b> Creating connectiong between containers</p>
 
