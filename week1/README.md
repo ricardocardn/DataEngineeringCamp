@@ -64,7 +64,7 @@ ANSWER:
 - Hostname: `pgdatabase`
 - Port: `5432`
 
-## **Question 3:** Understanding Docker networking and docker-compose
+## **Question 3:** rip Segmentation Count
 
 First, we'll need to retrieve the [Yellow Taxi Trip Records](https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2019-10.parquet) dataset corresponding to the month of October. This dataset is already partitioned by month on the website, making it the only way to acquire the data for a specific period. Therefore, filtering by date using WHERE clauses may not be necessary. However, I have attempted to load additional data into the database to demonstrate the effectiveness of this filtering technique. You can check how this data was ingested on the `data_ingestion.ipynb` notebook.
 
