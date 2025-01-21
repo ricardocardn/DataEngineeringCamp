@@ -64,7 +64,7 @@ ANSWER:
 - Hostname: `pgdatabase`
 - Port: `5432`
 
-## **Question 3:** rip Segmentation Count
+## **Question 3:** Trip Segmentation Count
 
 First, we'll need to retrieve the [Yellow Taxi Trip Records](https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2019-10.parquet) dataset corresponding to the month of October. This dataset is already partitioned by month on the website, making it the only way to acquire the data for a specific period. Therefore, filtering by date using WHERE clauses may not be necessary. However, I have attempted to load additional data into the database to demonstrate the effectiveness of this filtering technique. You can check how this data was ingested on the `data_ingestion.ipynb` notebook.
 
@@ -90,3 +90,27 @@ Where `taxi_2019` is the table that only contains data from 2019. The following 
 <p align="center"><b>Figure 3:</b> SQL Statement Result</p>
 
 Different to all of the possible answers given.
+
+
+## **Question 4:** Longest trip for each day
+
+To obtain the asked information, we should run the next sql statement.
+
+```sql
+SELECT 
+	DATE(tpep_pickup_datetime) as date,
+	SUM(trip_distance) as distance
+from taxi_2019
+GROUP by date
+ORDER by distance DESC
+LIMIT 1;
+```
+
+This led us to the result in Figure 4.
+
+<p align="center">
+<img width="70%" alt="image" src="https://github.com/user-attachments/assets/1e638d34-5724-4390-86c4-f8deee314289" />
+</p>
+<p align="center"><b>Figure 4:</b> SQL Statement Result</p>
+
+ANSWER: 2019-10-18
