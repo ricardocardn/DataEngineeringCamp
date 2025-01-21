@@ -44,10 +44,49 @@ ANSWER: The pip version is `24.3.1`.
 
 ## **Question 2:** Understanding Docker networking and docker-compose
 
-If you want to access the postgres container by port 5432 from the host machine, you can use `localhost` as the hostname. However, if you plan to use the service within the context of a docker compose infrastructure, you should use the service name as the hostname. In this case, the service name is `postgres`, so that the hostname should be `postgres`. On the other hand, the port keeps the same value, `5432`.
+If you want to access the postgres container by port 5432 from the host machine, you can use `localhost` as the hostname. However, if you plan to use the service within the context of a docker compose infrastructure, you should use the service name as the hostname. In this case, the service name is `pgdatabase`, so that the hostname should be `pgdatabase`. On the other hand, the port keeps the same value, `5432`.
+
+In Figures 1 and 2 you may see how we will be able to create the connection between pgadmin and postgres using this hostname and port.
+
+<p align="center">
+<img width="70%" alt="Screenshot 2025-01-21 at 20 38 11" src="https://github.com/user-attachments/assets/bcdb7d0c-2572-44d1-8041-3e79a4620785" />
+</p>
+<p align="center"><b>Figure 1:</b> Creating connectiong between containers</p>
+
+<p align="center">
+<img width="70%" alt="Screenshot 2025-01-21 at 20 39 24" src="https://github.com/user-attachments/assets/0d62a6ad-8c99-4129-bd48-6ddafea47a20" />
+</p>
+<p align="center"><b>Figure 2:</b> Checking postgres database content</p>
 
 (*) NOTE: to be able to use the postgres service directly from your host machine, you should first define a network, configure as `bridge`, and then attach the postgres service to this network. This way, you can access the postgres service by using the `localhost` hostname and the port `5432`. You can do the same thing to the other service.
 
 ANSWER:
-- Hostname: `postgres`
+- Hostname: `pgdatabase`
 - Port: `5432`
+
+## **Question 3:** Understanding Docker networking and docker-compose
+
+First, we'll need to retrieve the [Yellow Taxi Trip Records](https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2019-10.parquet) dataset corresponding to the month of October. This dataset is already partitioned by month on the website, making it the only way to acquire the data for a specific period. Therefore, filtering by date using WHERE clauses may not be necessary. However, I have attempted to load additional data into the database to demonstrate the effectiveness of this filtering technique. You can check how this data was ingested on the `data_ingestion.ipynb` notebook.
+
+The SQL prompt to form such a query looks like the following:
+
+```sql
+SELECT 
+    SUM(CASE WHEN trip_distance <= 1 THEN 1 ELSE 0 END) AS up_to_1_mile,
+    SUM(CASE WHEN trip_distance > 1 AND trip_distance <= 3 THEN 1 ELSE 0 END) AS between_1_and_3_miles,
+    SUM(CASE WHEN trip_distance > 3 AND trip_distance <= 7 THEN 1 ELSE 0 END) AS between_3_and_7_miles,
+    SUM(CASE WHEN trip_distance > 7 AND trip_distance <= 10 THEN 1 ELSE 0 END) AS between_7_and_10_miles,
+    SUM(CASE WHEN trip_distance > 10 THEN 1 ELSE 0 END) AS over_10_miles
+FROM taxi_2019 as t
+WHERE t."tpep_pickup_datetime" >= '2019-10-01' 
+  AND t."tpep_pickup_datetime" < '2019-11-01';
+```
+
+Where `taxi_2019` is the table that only contains data from 2019. The following result was obtained:
+
+<p align="center">
+<img width="70%" alt="image" src="https://github.com/user-attachments/assets/8bbc946f-80f9-4867-86f3-e191f7cc8c8b" />
+</p>
+<p align="center"><b>Figure 3:</b> SQL Statement Result</p>
+
+Different to all of the possible answers given.
