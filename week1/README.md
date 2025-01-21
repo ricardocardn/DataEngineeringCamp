@@ -44,14 +44,14 @@ ANSWER: The pip version is `24.3.1`.
 
 ## **Question 2:** Understanding Docker networking and docker-compose
 
-If you want to access the postgres container by port 5432 from the host machine, you can use `localhost` as the hostname. However, if you plan to use the service within the context of a docker compose infrastructure, you should use the service name as the hostname. In this case, the service name is `pgdatabase`, so that the hostname should be `pgdatabase`. On the other hand, the port keeps the same value, `5432`.
+If you want to access the postgres container by port 5432 from the host machine, you can use `localhost` as the hostname. However, if you plan to use the service within the context of a docker compose infrastructure, you should use the service name as the hostname. In this case, the service name is `db`, so that the hostname should be `db`. On the other hand, the port keeps the same value, `5432`.
 
 In Figures 1 and 2 you may see how we will be able to create the connection between pgadmin and postgres using this hostname and port.
 
 <p align="center">
 <img width="70%" alt="image" src="https://github.com/user-attachments/assets/6451614e-0a2b-4a20-9eba-b825eda3302a" />
 </p>
-<p align="center"><b>Figure 1:</b> Creating connectiong between containers</p>
+<p align="center"><b>Figure 1:</b> Creating connectiong between containers. Here, the postgres container is named pgdatabase instead of db.</p>
 
 <p align="center">
 <img width="70%" alt="Screenshot 2025-01-21 at 20 39 24" src="https://github.com/user-attachments/assets/0d62a6ad-8c99-4129-bd48-6ddafea47a20" />
@@ -61,7 +61,7 @@ In Figures 1 and 2 you may see how we will be able to create the connection betw
 (*) NOTE: to be able to use the postgres service directly from your host machine, you should first define a network, configure as `bridge`, and then attach the postgres service to this network. This way, you can access the postgres service by using the `localhost` hostname and the port `5432`. You can do the same thing to the other service.
 
 ANSWER:
-- Hostname: `pgdatabase`
+- Hostname: `db`
 - Port: `5432`
 
 ## **Question 3:** Trip Segmentation Count
