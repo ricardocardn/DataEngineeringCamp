@@ -114,3 +114,8 @@ This led us to the result in Figure 4.
 <p align="center"><b>Figure 4:</b> SQL Statement Result</p>
 
 ANSWER: 2019-10-18
+
+
+## **Question 7:** Terraform Workflow
+
+ANSWER: terraform init, terraform apply -auto-approve, terraform destroy
